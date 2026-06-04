@@ -4,12 +4,7 @@ $light-text: #333;
 $dark-bg: #333;
 $dark-text: #eee;
 
-$bg: #f6f3ee;
-$card: #ffffff;
-$text: #1f1f1f;
-$muted: #666;
 $primary: #e76f51;
-$accent: #2a9d8f;
 
 $radius: 14px;
 $shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
@@ -25,7 +20,7 @@ body {
 
 body.dark {
   background-color: $dark-bg;
-  color: $dark-text;
+
 }
 
 img {
@@ -70,4 +65,5 @@ body.dark hr {
 
 footer {
   padding: 1rem 0;
+  color: $dark-text;
 }

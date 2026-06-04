@@ -47,14 +47,16 @@ header {
 
   }
 
-  body.dark .menu  {
-    background-color: $dark-bg;
-    border: 1px solid $dark-text;
-  }
+}
 
-  body.dark .menu li a:hover {
-    background-color: darken($dark-bg, 10%);
-  }
+body.dark header .menu  {
+  background-color: $dark-bg;
+  border: 1px solid $dark-text;
+  color: $dark-text;
+}
+
+body.dark header .menu li a:hover {
+  background-color: darken($dark-bg, 10%);
 }
 
 /* Mobile nav & burger */
@@ -180,17 +182,21 @@ body.dark .btn {
 .actionBox,
 .countryBox,
 .mapBox {
-  background: $card;
+  background: #fff;
   border-radius: $radius;
   padding: 1rem;
   box-shadow: $shadow;
 }
 
 // recipe image
-.imageBox img {
+.imageBox img, .countryBox img {
   width: 100%;
   border-radius: $radius;
   object-fit: cover;
+}
+
+.countryBox img {
+  border: 1px solid black;
 }
 
 //map iframe
