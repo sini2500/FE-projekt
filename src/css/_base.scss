@@ -4,6 +4,16 @@ $light-text: #333;
 $dark-bg: #333;
 $dark-text: #eee;
 
+$bg: #f6f3ee;
+$card: #ffffff;
+$text: #1f1f1f;
+$muted: #666;
+$primary: #e76f51;
+$accent: #2a9d8f;
+
+$radius: 14px;
+$shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+
 @mixin screensize($size) {
   @if $size == mobile {
     @media (max-width: 750px) {
@@ -13,8 +23,12 @@ $dark-text: #eee;
 }
 
 body {
-  background-color: $light-bg;
+  background: $light-bg;
   color: $light-text;
+  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 body.dark {
@@ -39,6 +53,7 @@ body.dark header {
 main {
   padding: 2rem 0;
   line-height: 1.5;
+  flex-grow: 1;
 }
 
 h1, h2, h3 {
@@ -46,7 +61,6 @@ h1, h2, h3 {
 }
 
 p {
-  margin-bottom: 1rem;
   max-width: 800px;
   text-wrap: pretty;
 }
@@ -59,4 +73,8 @@ hr {
 
 body.dark hr {
     border-top: 1px dashed $dark-text;
+}
+
+footer {
+  padding: 1rem 0;
 }

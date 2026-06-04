@@ -31,8 +31,13 @@ toggle.addEventListener("click", () => {
 });
 
 /* index.html */
-const recipeContainer = document.querySelector("#recipe");
+const imageBox = document.querySelector("#recipe-image");
+const headerBox = document.querySelector("#recipe-header");
+const ingredientsBox = document.querySelector("#recipe-ingredients");
+const instructionsBox = document.querySelector("#recipe-instructions");
+
 const triviaContainer = document.querySelector("#trivia");
+const mapFrame = document.querySelector("#map");
 const randomButton = document.querySelector("#random-btn");
 const rouletteWheel = document.querySelector("#wheel");
 
@@ -75,21 +80,28 @@ function getIngredients(recipe) {
 function renderRecipe(recipe) {
   const ingredients = getIngredients(recipe);
 
-  recipeContainer.innerHTML = `
-    <div class="card fade-in">
-      <img src="${recipe.strMealThumb}" alt="${recipe.strMeal}" />
-      <h2>${recipe.strMeal}</h2>
+  imageBox.innerHTML = `
+    <img src="${recipe.strMealThumb}" alt="${recipe.strMeal}" />
+  `;
 
-      <p><strong>Origin:</strong> ${recipe.strArea}</p>
+  headerBox.innerHTML = `
+    <h2>${recipe.strMeal}</h2>
+    <p><strong>Origin:</strong> ${recipe.strArea || recipe.strCountry || ""}</p>
+    <p><strong>Category:</strong> ${recipe.strCategory || ""}</p>
+    <p><strong>Tags:</strong> ${recipe.strTags || ""}</p>
+    <p><strong>Recipe source:</strong> <a href="${recipe.strSource || ""}">${recipe.strSource || ""}</a></p>   
+  `;
 
-      <h3>Ingredients</h3>
-      <ul>
-        ${ingredients.map((i) => `<li>${i}</li>`).join("")}
-      </ul>
+  ingredientsBox.innerHTML = `
+    <h3>Ingredients</h3>
+    <ul>
+      ${ingredients.map((i) => `<li>${i}</li>`).join("")}
+    </ul>
+  `;
 
-      <h3>Instructions</h3>
-      <p>${recipe.strInstructions}</p>
-    </div>
+  instructionsBox.innerHTML = `
+    <h3>Instructions</h3>
+    <p>${recipe.strInstructions}</p>
   `;
 }
 
@@ -151,7 +163,7 @@ function renderTrivia(country) {
   const languages = Object.values(country.languages || {}).join(", ");
 
   triviaContainer.innerHTML = `
-    <div class="card fade-in">
+    <div class="card">
       <img src="${country.flags.svg}" alt="Flag" />
       <h2>${country.name.common}</h2>
 
@@ -168,15 +180,18 @@ function renderTrivia(country) {
   `;
 }
 
-// helpers
+
+// show loading
 function showLoading() {
-  recipeContainer.innerHTML = "<p>Loading recipe...</p>";
+  headerBox.innerHTML = "<p>Loading recipe...</p>";
+  ingredientsBox.innerHTML = "";
+  instructionsBox.innerHTML = "";
   triviaContainer.innerHTML = "<p>Loading country info...</p>";
 }
 
 // show error
 function showError(err) {
-  recipeContainer.innerHTML = `<p>${err}...</p>`;
+  headerBox.innerHTML = `<p>${err.body}...</p>`;
   triviaContainer.innerHTML = "<p>Error, reload the page...</p>";
 }
 

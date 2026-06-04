@@ -1,46 +1,55 @@
 @use '_base' as *;
 
-/* Header nav & menu */
+/*  header */
+header {
+  padding: 1rem 0;
+  background: white;
+  box-shadow: $shadow;
 
-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-nav a {
-  text-decoration: none;
-  color: inherit;
-
-  &:hover {
-    background-color: darken($light-bg, 10%);
-    text-decoration: underline;
+  .logo a {
+    text-decoration: none;
+    font-weight: 700;
+    color: $light-text;
+    font-size: 1.2rem;
   }
 
-}
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
-body.dark nav a {
-  &:hover {
+  .menu {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+
+    li a {
+      text-decoration: none;
+      color: inherit;
+      padding: 4px 8px;
+      border-radius: 12px;
+
+      &:hover {
+      background-color: darken($light-bg, 10%);
+      text-decoration: underline;
+     }
+
+    }
+
+  }
+
+  body.dark .menu  {
+    background-color: $dark-bg;
+    border: 1px solid $dark-text;
+  }
+
+  body.dark .menu li a:hover {
     background-color: darken($dark-bg, 10%);
   }
 }
 
-.menu a {
-  padding: 4px 8px;
-  border-radius: 12px;
-}
-
-.logo a {
-  font-weight: bold;
-  font-size: 1.5rem;
-}
-
-.menu {
-  display: flex;
-  gap: 1rem;
-  list-style: none;
-}
-
+/* Mobile nav & burger */
 .burger {
   display: none;
   font-size: 1.5rem;
@@ -53,7 +62,6 @@ body.dark .burger {
   color: $dark-text;
 }
 
-
 @include screensize(mobile) {
   .menu {
     display: none;
@@ -65,11 +73,6 @@ body.dark .burger {
     background-color: $light-bg;
     border: 1px solid $light-text;
     padding: 1rem;
-  }
-
-  body.dark .menu  {
-    background-color: $dark-bg;
-    border: 1px solid $dark-text;
   }
 
   .menu.show {
@@ -86,48 +89,25 @@ body.dark .burger {
 }
 
 
-/* voting area */
-
-.image-container {
-  display: flex;
-  gap: 3rem;
-  justify-content: start;
-  margin: 2rem 0;
-}
-
-@include screensize(mobile) {
-  .image-container {
-    flex-wrap:wrap;
-    gap: 1.5rem;
-  }
-}
-
-.vote-image {
-  width: 300px;
-  height: 300px;
-  object-fit: cover;
-  border-radius: 12px;
-  border: 4px solid transparent;
-  transition: all 0.25s ease;
-
-  &:hover {
-    transform: scale(1.05);
-  }
-
-  &.selected {
-    border-color: blue;
-    transform: scale(1.05);
-  }
-}
-
 /* buttons */
 
 .btn {
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 1rem;
   margin-right: 1rem;
   font-size: 1rem;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: $radius;
+  border:none;
+  background: $primary;
+  color: white;
+  width: 100%;
+  margin-top: 1rem;
+  transition: 0.2s ease;
+
+  &:hover {
+    background: darken($primary, 10%);
+    transform: translateY(-2px);
+  }
 
   &:disabled {
     cursor: not-allowed;
@@ -135,31 +115,67 @@ body.dark .burger {
   }
 }
 
-.btn-primary {
-  @extend .btn;
-  background-color: $light-bg;
-}
-
-body.dark .btn-primary {
+body.dark .btn {
   background-color: $dark-bg;
   color: $dark-text;
   border-color: $dark-text;
 }
 
-
-/* results table */
-th, td {
-    padding: 0 0 8px;
-    text-align: left;
+// wheel
+.wheel {
+  font-size: 2rem;
+  text-align: center;
+  padding: 1rem;
+  background: $accent;
+  color: white;
+  border-radius: $radius;
 }
 
-td {
-    img {
-        max-width:200px;
-
-    }
-    text-align: center;
+// break instruction text
+.instructionsBox p {
+  white-space: pre-line;
 }
+
+// cards
+.imageBox,
+.titleBox,
+.ingredientsBox,
+.instructionsBox,
+.actionBox,
+.countryBox,
+.mapBox {
+  background: $card;
+  border-radius: $radius;
+  padding: 1rem;
+  box-shadow: $shadow;
+}
+
+// recipe image
+.imageBox img {
+  width: 100%;
+  border-radius: $radius;
+  object-fit: cover;
+}
+
+//map iframe
+.mapBox iframe {
+  border-radius: $radius;
+  width: 100%;
+  height: 300px;
+}
+
+// List
+ul {
+  padding-left: 1.2rem;
+}
+
+li {
+  margin-bottom: 0.3rem;
+}
+
+
+
+
 
 /* animation demo area */
 
@@ -295,27 +311,4 @@ td {
     left: 100%;
   }
 
-}
-
-/* charts */
-
-.chart-example {
-  margin-bottom: 40px;
-  max-height: 600px;
-}
-
-/* maps */
-
-#map1 {
-    margin-top: 30px;
-}
-
-#map-search-input {
-    padding: 10px;
-    font-size: 16px;
-}
-
-#map-search button {
-    width: 120px;
-    padding: 10px;
 }

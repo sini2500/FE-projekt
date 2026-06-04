@@ -30,28 +30,56 @@
 
     <main class="container">
 
-      <section class="controls">
-        <div id="wheel" class="wheel">?</div>
-        <button id="random-btn" class="btn-primary">
-          Spin the wheel
-        </button>
-      </section>
+      <div class="layout">
 
-      <section class="grid">
+        <div class="flex-col">
 
-        <article id="recipe" class="card">
-          <p>Hit the button to get a random recipe</p>
-        </article>
 
-        <article class="card map-card">
-          <iframe id="map" width="100%" height="350" frameborder="0" scrolling="no" src="https://www.openstreetmap.org/export/embed.html?layer=mapnik&zoom=14"></iframe>
-        </article>
+          <div class="gridRow">
 
-        <article id="trivia" class="card">
-          <p>Country trivia goes here</p>
-        </article>
+            <div class="imageBox" id="recipe-image">
+            </div>
 
-      </section>
+            <div class="titleBox" id="recipe-header">
+              <h2>Get a recipe</h2>
+              <p>Spin the wheel to get a random recipe</p>
+            </div>
+
+          </div>
+
+          <div class="gridRow">
+
+            <div class="ingredientsBox" id="recipe-ingredients">
+              <h3>Ingredients</h3>
+            </div>
+
+            <div class="instructionsBox" id="recipe-instructions">
+              <h3>Instructions</h3>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="flex-col">
+
+          <div class="actionBox">
+            <div id="wheel" class="wheel">?</div>
+
+            <button id="random-btn" class="btn">Get Recipe</button>
+          </div>
+
+          <div class="countryBox" id="trivia">
+            <p>Country info goes here</p>
+          </div>
+
+          <div class="mapBox">
+            <iframe id="map" width="100%" height="350" frameborder="0" scrolling="no" src="https://www.openstreetmap.org/export/embed.html?layer=mapnik"></iframe>
+          </div>
+
+        </div>
+
+      </div>
 
     </main>
 

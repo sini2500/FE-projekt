@@ -1,5 +1,39 @@
+
+.layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 0 1rem;
+}
+
+.gridRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+// ===============================
+// RESPONSIVE
+// ===============================
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .gridRow {
+    grid-template-columns: 1fr;
+  }
 }
