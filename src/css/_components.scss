@@ -123,17 +123,40 @@ body.dark .btn {
 
 // wheel
 .wheel {
-  font-size: 2rem;
-  text-align: center;
-  padding: 1rem;
-  background: $accent;
-  color: white;
-  border-radius: $radius;
+  width: 220px;
+  aspect-ratio: 1;
+  margin: 0 auto 1rem auto;
+  border-radius: 50%;
+
+  background-image: url("/wheel.png");
+  background-image: image-set(
+    url("/wheel.webp") type("image/webp"),
+    url("/wheel.png") type("image/png")
+  );
+  background-size: cover;
+  background-position: center;
+
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease;
 }
 
 // break instruction text
 .instructionsBox p {
   white-space: pre-line;
+}
+
+.spin {
+  animation: spinWheel 1.25s ease-out;
+}
+
+@keyframes spinWheel {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(1080deg);
+  }
 }
 
 // cards

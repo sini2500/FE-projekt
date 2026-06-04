@@ -198,6 +198,13 @@ function showError(err) {
 // the whole thing
 async function newRandomRecipe() {
   try {
+    
+    // Spin the wheel
+    rouletteWheel.classList.remove("spin");
+    void rouletteWheel.offsetWidth;
+    rouletteWheel.classList.add("spin");
+
+    // show loading text
     showLoading();
 
     // Recipe
