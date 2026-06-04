@@ -4,19 +4,24 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DT211G - Recipe Roulette</title>
-    <link rel="stylesheet" href="/src/css/style.scss">
-    <script src="/src/js/main.js" type="module" defer></script>
+
+    <link rel="stylesheet" href="/src/css/style.scss" />
+    <script type="module" src="/src/js/main.js" defer></script>
+    <script type="module" src="/src/js/karta.js" defer></script>
+
   </head>
+
   <body>
     <header>
       <div class="container">
           <nav>
-            <div class="logo"><a href="/">BästKatt</a></div>
+            <div class="logo"><a href="/">Recipe Roulette</a></div>
             
             <button class="burger">&#x2630;</button>
 
             <ul class="menu">
-              <li><a href="/">Hem</a></li>
+              <li><a href="/">Home</a></li>
+              <li><a href="/">Random Recipe</a></li>
               <li id="dark-toggle">🌙</li>
             </ul>
 
@@ -25,29 +30,37 @@
     </header>
 
     <main class="container">
-      <h1>Välj bäst katt!</h1>
-      <p>Lab 3 går ut på att använda SCSS för att ge stil åt en webbplats.</p>
-      <p>Jag har valt att göra en enkel rankingsajt där användare kan rösta på bäst katt.</p>
-      <p>Det finns bara några få bilder att rösta på, och resultaten sparas bara per session.</p>
 
-      <hr>
+      <section class="controls">
+        <div id="wheel" class="wheel">?</div>
+        <button id="random-btn" class="btn-primary">
+          Spin the wheel
+        </button>
+      </section>
 
-      <div id="votingArea">
+      <section class="grid">
 
-        <h2>Rösta här</h2>
+        <article id="recipe" class="card">
+          <p>Hit the button to get a random recipe</p>
+        </article>
 
-        <div class="image-container">
-          <img id="img1" class="vote-image" />
-          <img id="img2" class="vote-image" />
-        </div>
+        <article class="card map-card">
+          <div id="map"></div>
+        </article>
 
-        <div class="controls">
-          <button id="voteBtn" class="btn-primary" disabled>Rösta</button>
-          <button id="resultsBtn" class="btn-primary">Visa Resultat</button>
-        </div>
+        <article id="trivia" class="card">
+          <p>Country trivia goes here</p>
+        </article>
 
-      </div>
+      </section>
 
     </main>
+
+    <footer>
+      <div class="container">
+        <p>Recipe Roulette - random recipes and trivia</p>
+      </div>
+    </footer>
+
   </body>
 </html>
