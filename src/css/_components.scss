@@ -1,5 +1,13 @@
 @use '_base' as *;
 
+@mixin screensize($size) {
+  @if $size == mobile {
+    @media (max-width: 750px) {
+      @content;
+    }
+  }
+}
+
 /*  header */
 header {
   padding: 1rem 0;
@@ -63,25 +71,30 @@ body.dark .burger {
 }
 
 @include screensize(mobile) {
-  .menu {
-    display: none;
-    flex-direction: column;
-    margin-top: 1rem;
-    position: absolute;
-    right: 2rem;
-    top: 4rem;
-    background-color: $light-bg;
-    border: 1px solid $light-text;
-    padding: 1rem;
+  header {
+
+    .menu {
+      display: none;
+      flex-direction: column;
+      margin-top: 1rem;
+      position: absolute;
+      right: 2rem;
+      top: 4rem;
+      background-color: $light-bg;
+      border: 1px solid $light-text;
+      padding: 1rem;
+    }
+
+    .menu.show {
+      display: flex;
+    }
+
+    .burger {
+      display: block;
+    } 
+
   }
 
-  .menu.show {
-    display: flex;
-  }
-
-  .burger {
-    display: block;
-  } 
 }
 
 #dark-toggle {

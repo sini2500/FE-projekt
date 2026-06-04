@@ -14,14 +14,6 @@ $accent: #2a9d8f;
 $radius: 14px;
 $shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 
-@mixin screensize($size) {
-  @if $size == mobile {
-    @media (max-width: 750px) {
-      @content;
-    }
-  }
-}
-
 body {
   background: $light-bg;
   color: $light-text;
@@ -63,6 +55,7 @@ h1, h2, h3 {
 p {
   max-width: 800px;
   text-wrap: pretty;
+  margin-bottom: 0.3rem;
 }
 
 hr {
