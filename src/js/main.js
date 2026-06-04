@@ -45,46 +45,166 @@ randomButton.addEventListener("click", newRandomRecipe);
 
 // recipe data
 
-    // get recipe from themealdb
-    // filter ingredients from recipe
-    // render recipe
+// get a random recipe
+async function getRandomRecipe() {
+  const res = await fetch("https://www.themealdb.com/api/json/v1/1/random.php");
+
+  if (!res.ok) throw new Error("Failed to get recipe, sorry!");
+
+  const data = await res.json();
+  return data.meals[0];
+}
+
+// ingredients from themealdb is in messy format, needs sorting
+function getIngredients(recipe) {
+  const list = [];
+
+  for (let i = 1; i <= 20; i++) {
+    const ing = recipe[`strIngredient${i}`];
+    const measure = recipe[`strMeasure${i}`];
+
+    if (ing && ing.trim()) {
+      list.push(`${measure} ${ing}`);
+    }
+  }
+
+  return list;
+}
+
+// rendering the recipe
+function renderRecipe(recipe) {
+  const ingredients = getIngredients(recipe);
+
+  recipeContainer.innerHTML = `
+    <div class="card fade-in">
+      <img src="${recipe.strMealThumb}" alt="${recipe.strMeal}" />
+      <h2>${recipe.strMeal}</h2>
+
+      <p><strong>Origin:</strong> ${recipe.strArea}</p>
+
+      <h3>Ingredients</h3>
+      <ul>
+        ${ingredients.map((i) => `<li>${i}</li>`).join("")}
+      </ul>
+
+      <h3>Instructions</h3>
+      <p>${recipe.strInstructions}</p>
+    </div>
+  `;
+}
 
 // map data
 
-    // get coordinates from nominatim api
-    // render map
+/**
+ * Gets coordinates from Nominatim
+ * @param {string} place - Name of the location
+ * @returns {Object} Latitude & longitude as float
+ */
+async function getCoordinates(place) {
 
-// trivia data
+    const url = `https://nominatim.openstreetmap.org/search?q=${place}&format=jsonv2&limit=1`;
 
-    // get info from rest countries api
-    // render trivia
+    const res = await fetch(url);
+
+    if (!res.ok) throw new Error("Failed to get coordinates, sorry!");
+
+    const data = await res.json();
+
+    if (!data.length) throw new Error("No coordinates found");
+
+    return {
+        lat: parseFloat(data[0].lat),
+        lon: parseFloat(data[0].lon),
+    };
+
+}
+
+/**
+ *
+ * Sets the iframe map marker to a specific position
+ * @param {number} lat - latitude
+ * @param {number} lon - longitude
+ */
+function updateMap(lat, lon) {
+
+    const map = document.querySelector("#map");
+    const zoom = 6;
+
+    map.src = `https://www.openstreetmap.org/export/embed.html?bbox=${lon-zoom},${lat-zoom},${lon+zoom},${lat+zoom}&layer=mapnik&marker=${lat},${lon}`;
+
+}
+
+// country info data
+
+// get info from rest countries api
+async function getCountryInfo(country) {
+  const res = await fetch(`https://restcountries.com/v3.1/name/${country}?fullText=true`);
+
+  if (!res.ok) throw new Error("Failed to get country info, sorry!");
+
+  const data = await res.json();
+  return data[0];
+}
+
+// render trivia
+function renderTrivia(country) {
+  const languages = Object.values(country.languages || {}).join(", ");
+
+  triviaContainer.innerHTML = `
+    <div class="card fade-in">
+      <img src="${country.flags.svg}" alt="Flag" />
+      <h2>${country.name.common}</h2>
+
+      <p><strong>Capital:</strong> ${
+        country.capital?.[0] || "Unknown"
+      }</p>
+
+      <p><strong>Region:</strong> ${country.region}</p>
+
+      <p><strong>Population:</strong> ${country.population.toLocaleString()}</p>
+
+      <p><strong>Languages:</strong> ${languages}</p>
+    </div>
+  `;
+}
 
 // helpers
+function showLoading() {
+  recipeContainer.innerHTML = "<p>Loading recipe...</p>";
+  triviaContainer.innerHTML = "<p>Loading country info...</p>";
+}
 
-    // show loading
-    // show error
+// show error
+function showError(err) {
+  recipeContainer.innerHTML = `<p>${err}...</p>`;
+  triviaContainer.innerHTML = "<p>Error, reload the page...</p>";
+}
 
 // the whole thing
 async function newRandomRecipe() {
+  try {
+    showLoading();
 
-    // try
-    // get recipe from api
+    // Recipe
+    const recipe = await getRandomRecipe();
 
-    // get country name
+    let country = recipe.strCountry;
 
-    // convert country name for next api if needed
+    // Country info
+    const countryInfo = await getCountryInfo(country);
 
-    // get country info/trivia from api
+    // Coordinates
+    const coords = await getCoordinates(country);
 
-    // get country coordinates from api
+    // Render everything
+    renderRecipe(recipe);
+    renderTrivia(countryInfo);
+    updateMap(coords.lat, coords.lon, country);
 
-    // render recipe
-    // render trivia
-    // render map
-
-    // catch error
-    // show error message
-
+  } catch (err) {
+    console.error(err);
+    showError(err);
+  }
 }
 
 // get random recipe on pageload
