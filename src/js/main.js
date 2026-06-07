@@ -1,5 +1,6 @@
 /**
  * Recipe Roulette
+ * A mashup web application for random recipes.
  *
  * APIs:
  * - TheMealDB
@@ -8,18 +9,44 @@
  * - OpenStreetMap
  */
 
-/* menu */
+// menu
+
+/**
+ * Hamburger menu btn
+ * @type {HTMLButtonElement}
+ */
 const menuBtn = document.querySelector('.burger');
+
+/**
+ * Navigation menu
+ * @type {HTMLUListElement}
+ */
 const menu = document.querySelector('.menu');
 
+/**
+ * Toggles mobile hamburger menu
+ */
 menuBtn.addEventListener('click', () => {
     menu.classList.toggle('show');
 });
 
-/* dark mode */
+// dark mode
+
+/**
+ * Dark mode toggle button
+ * @type {HTMLElement}
+ */
 const toggle = document.getElementById("dark-toggle");
+
+/**
+ * Document body element
+ * @type {HTMLBodyElement}
+ */
 const body = document.body;
 
+/**
+ * Toggles dark mode theme
+ */
 toggle.addEventListener("click", () => {
   body.classList.toggle("dark");
 
@@ -30,27 +57,70 @@ toggle.addEventListener("click", () => {
   }
 });
 
-/* index.html */
+// index.html
+
+/**
+ * Recipe image container
+ * @type {HTMLElement}
+ */
 const imageBox = document.querySelector("#recipe-image");
+
+/**
+ * Recipe header container
+ * @type {HTMLElement}
+ */
 const headerBox = document.querySelector("#recipe-header");
+
+/**
+ * Ingredients container
+ * @type {HTMLElement}
+ */
 const ingredientsBox = document.querySelector("#recipe-ingredients");
+
+/**
+ * Instructions container
+ * @type {HTMLElement}
+ */
 const instructionsBox = document.querySelector("#recipe-instructions");
 
+/**
+ * Country trivia container
+ * @type {HTMLElement}
+ */
 const triviaContainer = document.querySelector("#trivia");
+
+/**
+ * OpenStreetMap iframe
+ * @type {HTMLIFrameElement}
+ */
 const mapFrame = document.querySelector("#map");
+
+/**
+ * Random recipe button
+ * @type {HTMLButtonElement}
+ */
 const randomButton = document.querySelector("#random-btn");
+
+/**
+ * Roulette wheel element
+ * @type {HTMLElement}
+ */
 const rouletteWheel = document.querySelector("#wheel");
 
-// user actions
+/**
+ * Loads a new random recipe
+ */
 randomButton.addEventListener("click", newRandomRecipe);
-
-// wheel spin
-
-    // start spin
 
 // recipe data
 
-// get a random recipe
+/**
+ * Fetches a random recipe from TheMealDB
+ * 
+ * @async
+ * @returns {Promise<Object>} Recipe object
+ * @throws {Error} If API request fails
+ */
 async function getRandomRecipe() {
   const res = await fetch("https://www.themealdb.com/api/json/v1/1/random.php");
 
@@ -60,7 +130,12 @@ async function getRandomRecipe() {
   return data.meals[0];
 }
 
-// ingredients from themealdb is in messy format, needs sorting
+/**
+ * Organizes ingredients and measurements from recipe object
+ * 
+ * @param {Object} recipe - Recipe object from API
+ * @returns {string[]} Array of ingredient strings
+ */
 function getIngredients(recipe) {
   const list = [];
 
@@ -76,7 +151,11 @@ function getIngredients(recipe) {
   return list;
 }
 
-// rendering the recipe
+/**
+ * Renders recipe content in DOM
+ * 
+ * @param {Object} recipe - Recipe object
+ */
 function renderRecipe(recipe) {
   const ingredients = getIngredients(recipe);
 
@@ -109,8 +188,10 @@ function renderRecipe(recipe) {
 
 /**
  * Gets coordinates from Nominatim
+ * @async
  * @param {string} place - Name of the location
  * @returns {Object} Latitude & longitude as float
+ * @throws {Error} If coordinates cannot be fetched
  */
 async function getCoordinates(place) {
 
@@ -148,7 +229,15 @@ function updateMap(lat, lon) {
 
 // country info data
 
-// get info from rest countries api
+/**
+ * Gets country information from REST Countries
+ * 
+ * @async
+ * @param {string} country - Country name
+ * @returns {Promise<Object>} Country object
+ * 
+ * @throws {Error} If API request fails
+ */
 async function getCountryInfo(country) {
   const res = await fetch(`https://restcountries.com/v3.1/name/${country}?fullText=true`);
 
@@ -158,7 +247,11 @@ async function getCountryInfo(country) {
   return data[0];
 }
 
-// render trivia
+/**
+ * Renders country info in DOM
+ * 
+ * @param {Object} country - Country object
+ */
 function renderTrivia(country) {
   const languages = Object.values(country.languages || {}).join(", ");
 
@@ -181,7 +274,9 @@ function renderTrivia(country) {
 }
 
 
-// show loading
+/**
+ * Shows loading state
+ */
 function showLoading() {
   headerBox.innerHTML = "<p>Loading recipe...</p>";
   ingredientsBox.innerHTML = "";
@@ -189,13 +284,27 @@ function showLoading() {
   triviaContainer.innerHTML = "<p>Loading country info...</p>";
 }
 
-// show error
+/**
+ * Shows error message
+ * 
+ * @param {Error} err - Error object
+ */
 function showError(err) {
   headerBox.innerHTML = `<p>${err.body}...</p>`;
   triviaContainer.innerHTML = "<p>Error, reload the page...</p>";
 }
 
-// the whole thing
+// main function
+
+/**
+ * Fetches and renders
+ * a new random recipe with:
+ * - recipe info
+ * - country info
+ * - map coordinates
+ * 
+ * @async
+ */
 async function newRandomRecipe() {
   try {
     
@@ -229,5 +338,7 @@ async function newRandomRecipe() {
   }
 }
 
-// get random recipe on pageload
+/**
+ * Loads first recipe on page load
+ */
 newRandomRecipe();
